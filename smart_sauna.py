@@ -10,7 +10,7 @@ import RPi.GPIO as GPIO     # Importing the GPIO library to use the GPIO pins of
 import pygame.mixer
 
 # Telepot
-f=open("telepot.txt","r")
+f=open("/home/pi/Projektit/smartsauna/telepot.txt","r")
 lines=f.readlines()
 apitoken=lines[0]
 f.close()
@@ -20,7 +20,7 @@ print (bot.getMe())
 
 GPIO_pump = 16
 GPIO_button2= 21
-#GPIO_temp = 13
+#GPIO_temp = 4
 GPIO_button1 = 20
 GPIO.setmode(GPIO.BCM)
 #GPIO.setup(GPIO_temp, GPIO.OUT)
@@ -33,7 +33,7 @@ pygame.mixer.init(48000, -16, 1, 1024)
 
 
 # Temperature sensor. GPIO 4
-"""
+
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 base_dir = '/sys/bus/w1/devices/'
@@ -56,7 +56,7 @@ def read_temp():
         temp_string = lines[1][equals_pos+2:]
         temp_c = float(temp_string) / 1000.0
         return temp_c
-"""
+
 
 """def turn_servo(servo_turn):
     servo = GPIO.PWM(GPIO_servo, 50) # GPIO 17 for PWM with 50Hz
@@ -140,8 +140,9 @@ while True:
     if GPIO.input(GPIO_button1) == GPIO.HIGH:
         if i > 4:
             i=0
-        sound = ("/home/pi/Projektit/SmartSauna/sounds/kaliaa" + str(i) + ".wav")
+        sound = ("/home/pi/Projektit/smartsauna/sounds/kaliaa" + str(i) + ".wav")
         pygame.mixer.Sound(sound).play()
+        print("Sound played")
         time.sleep(0.5)
         i+=1
         
