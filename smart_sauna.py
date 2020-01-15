@@ -8,6 +8,7 @@ import telepot   # Importing the telepot library
 from telepot.loop import MessageLoop    # Library function to communicate with telegram bot
 import RPi.GPIO as GPIO     # Importing the GPIO library to use the GPIO pins of Raspberry pi
 import pygame.mixer
+from random import choices
 
 # Telepot
 f=open("/home/pi/Projektit/smartsauna/telepot.txt","r")
@@ -125,6 +126,7 @@ temperature_alarm = False
 lämpövahti_lämpötila = 80
 throw_water_delay = 10
 throw_water_amount = 2
+pygame.mixer.Sound("/home/pi/Projektit/smartsauna/sounds/start_sound.wav").play()
 
 i = 0
 while True:
@@ -138,13 +140,18 @@ while True:
 
     #Plays 1 of the 5 beer sounds, each in turn
     if GPIO.input(GPIO_button1) == GPIO.HIGH:
-        if i > 4:
-            i=0
+        #if i > 4:
+            #i=0
+        #Randomly plays some audio file, with probabilities.
+        population = [0, 1, 2, 3]
+        weights = [0.70, 0.08, 0.07, 0.25]
+        i = choices(population, weights)[0]
+        
         sound = ("/home/pi/Projektit/smartsauna/sounds/kaliaa" + str(i) + ".wav")
         pygame.mixer.Sound(sound).play()
         print("Sound played")
         time.sleep(0.5)
-        i+=1
+        #i+=1
         
     if GPIO.input(GPIO_button2) == GPIO.LOW:
         GPIO.output(GPIO_pump, GPIO.LOW)
